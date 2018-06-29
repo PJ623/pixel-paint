@@ -6,6 +6,7 @@
     * addRow()
     * addCol()
     * Provide instructions on how to use the app
+    * Let user determine size of canvas
 */
 
 class InputCanvas extends Canvas {
