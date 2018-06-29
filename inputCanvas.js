@@ -5,6 +5,7 @@
     * Save in local storage?
     * addRow()
     * addCol()
+    * Provide instructions on how to use the app
 */
 
 class InputCanvas extends Canvas {
