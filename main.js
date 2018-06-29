@@ -65,12 +65,12 @@ let canvas = document.getElementById("canvas");
 
 let can = new InputCanvas();
 
-can.build(32, 32);
+can.build(24, 24);
 can.bind(canvas);
 can.get(0, 0).focus();
 
 document.getElementById("clear-button").addEventListener("click", () => {
-    can.build(32, 32);
+    can.build(24, 24);
     can.bind("canvas");
 });
 
@@ -101,12 +101,12 @@ document.getElementById("imageify-art-button").addEventListener("click", () => {
         let color;
 
         can.forEach((x, y) => {
-            color = can.get(x,y).dataset.color;
-            if(color == ""){
+            color = can.get(x, y).dataset.color;
+            if (color == "") {
                 color = "white";
             }
             ctx.fillStyle = color;
-            ctx.fillRect(x,y,1,1);
+            ctx.fillRect(x, y, 1, 1);
         });
     }
 });
