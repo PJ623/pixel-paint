@@ -64,3 +64,8 @@ body {
     flex-direction: column;
     margin: 0 1em 0em 1em;
 }
+
+#rendering-canvas {
+    border: 1px solid black;
+    display: none;
+}

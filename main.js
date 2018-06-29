@@ -28,9 +28,9 @@ function buildPaletteControls() {
     }
 }
 
-function randomizePalette(){
-    let colorElements = document.getElementsByClassName(colorInputClassName); 
-    for(let i = 0; i < colorElements.length; i++){
+function randomizePalette() {
+    let colorElements = document.getElementsByClassName(colorInputClassName);
+    for (let i = 0; i < colorElements.length; i++) {
         assignColor(colorElements[i]);
     }
 }
@@ -79,8 +79,40 @@ document.getElementById("randomize-palette-button").addEventListener("click", ()
     can.fillPalette(can.getColors(colorInputClassName));
 });
 
+function getColor() {
+
+}
+
+document.getElementById("imageify-art-button").addEventListener("click", () => {
+    let renderingCanvas = document.getElementById("rendering-canvas");
+
+    if (can.isBuilt() && renderingCanvas != null) {
+        renderingCanvas.height = can.height;
+        renderingCanvas.width = can.width;
+
+        let ctx = renderingCanvas.getContext("2d");
+
+        renderingCanvas.style.display = "block";
+
+        //ctx.fillStyle = "#FF0000";
+        //ctx.fillRect(0, 0, 2, 2);
+
+        //console.log(can.width, can.height);
+        let color;
+
+        can.forEach((x, y) => {
+            color = can.get(x,y).dataset.color;
+            if(color == ""){
+                color = "white";
+            }
+            ctx.fillStyle = color;
+            ctx.fillRect(x,y,1,1);
+        });
+    }
+});
+
 canvas.addEventListener("keypress", (event) => {
-    if(event.key == "r"){
+    if (event.key == "r") {
         randomizePalette();
         can.fillPalette(can.getColors(colorInputClassName));
     }

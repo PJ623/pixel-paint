@@ -180,4 +180,12 @@ class InputCanvas extends Canvas {
         row.dataset.y = y;
         return row;
     }
+
+    isBuilt(){
+        if(this.contents){
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
