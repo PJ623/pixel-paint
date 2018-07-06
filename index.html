@@ -27,10 +27,11 @@
                     <div id="canvas">
                     </div>
                     <div class="flex-center side-panel">
-                        <button id="set-size-button" disabled>Set Canvas Size</button>
+                        <button id="set-size-button">Set Canvas Size</button>
                         <button id="randomize-palette-button">Randomize Palette</button>
                         <button id="clear-button">Clear</button>
                         <button id="imageify-art-button">Imageify Art</button>
+                        <button id="instructions-button" disabled>Instructions</button>
                         <br>
                         <div class="full-width">
                             <canvas id="rendering-canvas"></canvas>
@@ -40,8 +41,30 @@
             </div>
         </div>
     </div>
+    <div id="modal">
+        <div id="set-size-prompt">
+            <div class="flex-center">Set the size of your canvas.</div>
+            <hr>
+            <div class="flex-center">
+                <div>
+                    <input type="text" id="width-input" class="dimension-input" placeholder="width" maxlength="5" required pattern="\d+"> X
+                    <input type="text" id="height-input" class="dimension-input" placeholder="height" maxlength="5" required pattern="\d+">
+                </div>
+                <span id="error-message" class="flex-center"></span>
+            </div>
+            <hr>
+            <div class="flex-center">
+                <div>
+                    <button id="set-size-submit-button">Submit</button>
+                    <button id="set-size-cancel-button">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="canvas.js"></script>
     <script src="inputCanvas.js"></script>
+    <script src="page.js"></script>
     <script src="main.js"></script>
 </body>
 

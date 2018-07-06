@@ -136,7 +136,7 @@ class InputCanvas extends Canvas {
 
         let color;
 
-        ele.type = "text";
+        //ele.type = "text";
         ele.className = "cell";
         ele.dataset.position = new this.Vector(x, y);
         ele.dataset.color = "";
@@ -150,9 +150,28 @@ class InputCanvas extends Canvas {
 
         ele.addEventListener("keydown", (event) => {
             if (this.movementMap[event.keyCode]) {
-                let position = JSON.parse(ele.dataset.position);
-                let vec = new this.Vector(position.x, position.y).add(this.movementMap[event.keyCode])
-                this.moveSelector(vec);
+                let parsedPosition = JSON.parse(ele.dataset.position);
+                let position = new this.Vector(parsedPosition.x, parsedPosition.y);
+                let vec = this.movementMap[event.keyCode];
+
+                // wrap backwards
+                if (position.x == 0 && (vec.toString() == new this.Vector(-1, 0).toString())) {
+                    vec = new this.Vector((this.width - 1), 0);
+
+                    // wrap forwards
+                } else if (position.x == this.width - 1 && vec.toString() == new this.Vector(1, 0).toString()) {
+                    vec = new this.Vector(-(this.width - 1), 0);
+
+                    // wrap upwards
+                } else if (position.y == 0 && vec.toString() == new this.Vector(0, -1).toString()) {
+                    vec = new this.Vector(0, (this.height - 1));
+
+                    // wrap downwards
+                } else if (position.y == this.height - 1 && vec.toString() == new this.Vector(0, 1).toString()) {
+                    vec = new this.Vector(0, -(this.height - 1));
+                }
+
+                this.moveSelector(position.add(vec));
             } else if (this.deleteMap[event.keyCode]) {
                 this.clearCell(ele);
             }
@@ -182,8 +201,8 @@ class InputCanvas extends Canvas {
         return row;
     }
 
-    isBuilt(){
-        if(this.contents){
+    isBuilt() {
+        if (this.contents) {
             return true;
         } else {
             return false;

@@ -1,87 +1,23 @@
 // Sorry for the mess!
 
-let br;
-let span;
-let div;
-let colorInput;
-let paletteDiv = document.getElementById("palette");
-let color = "";
-let colorsUsed = {};
-let colorInputClassName = "color";
-
-function buildPaletteControls() {
-    for (let i = 0; i < 9; i++) {
-        br = document.createElement("br");
-        span = document.createElement("span");
-        div = document.createElement("div");
-
-        span.textContent = /*"Num " +*/ (i + 1) + ": ";
-        colorInput = document.createElement("input");
-        colorInput.type = "color";
-        colorInput.className = colorInputClassName;
-
-        div.appendChild(span);
-        div.appendChild(colorInput);
-        div.appendChild(br);
-
-        paletteDiv.appendChild(div);
-    }
-}
-
-function randomizePalette() {
-    let colorElements = document.getElementsByClassName(colorInputClassName);
-    for (let i = 0; i < colorElements.length; i++) {
-        assignColor(colorElements[i]);
-    }
-}
-
-function assignColor(ele) {
-    color = generateHex();
-
-    while (colorsUsed[color]) {
-        color = generateHex();
-    }
-
-    ele.value = color;
-    colorsUsed[color] = true;
-}
-
-function generateHex() {
-    let str = "#";
-    let hexCharArr = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F"];
-    let length = 6;
-
-    for (let i = 0; i < length; i++) {
-        let char = hexCharArr[Math.floor(Math.random() * (hexCharArr.length))];
-        str += char;
-    }
-    return str;
-}
+let canvas = document.getElementById("canvas");
+let modal = document.getElementById("modal");
+let can = new InputCanvas();
+let currentWidth = 24;
+let currentHeight = 24;
 
 buildPaletteControls();
 randomizePalette();
-
-let canvas = document.getElementById("canvas");
-
-let can = new InputCanvas();
-
-can.build(24, 24);
-can.bind(canvas);
-can.get(0, 0).focus();
+makeCanvas();
 
 document.getElementById("clear-button").addEventListener("click", () => {
-    can.build(24, 24);
-    can.bind("canvas");
+    makeCanvas();
 });
 
 document.getElementById("randomize-palette-button").addEventListener("click", () => {
     randomizePalette();
     can.fillPalette(can.getColors(colorInputClassName));
 });
-
-function getColor() {
-
-}
 
 document.getElementById("imageify-art-button").addEventListener("click", () => {
     let renderingCanvas = document.getElementById("rendering-canvas");
@@ -116,4 +52,33 @@ canvas.addEventListener("keypress", (event) => {
         randomizePalette();
         can.fillPalette(can.getColors(colorInputClassName));
     }
+});
+
+document.getElementById("set-size-button").addEventListener("click", () => {
+    modal.style.display = "flex";
+    document.getElementById("error-message").style.display = "none";
+});
+
+document.getElementById("set-size-submit-button").addEventListener("click", () => {
+    let widthInput = document.getElementById("width-input");
+    let heightInput = document.getElementById("height-input")
+    let errorMessage = document.getElementById("error-message");
+    let width = Number(widthInput.value);
+    let height = Number(heightInput.value);
+
+    if (!checkDimension(width) || !checkDimension(height)) {
+        widthInput.value = "";
+        heightInput.value = "";
+        errorMessage.style.display = "block";
+        errorMessage.textContent = "The specified dimensions are invalid.";
+    } else {
+        makeCanvas(width, height);
+        currentWidth = width;
+        currentHeight = height;
+        modal.style.display = "none";
+    }
+});
+
+document.getElementById("set-size-cancel-button").addEventListener("click", () => {
+    modal.style.display = "none";
 });
